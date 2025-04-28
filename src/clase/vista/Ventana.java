@@ -4,115 +4,90 @@ import clase.implementacion.Operacionesimpl;
 import clase.interfaz.Operaciones;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class Ventana extends JFrame {
-
-    private JTextField textField1;
-    private JTextField textField2;
-    private JTextField resultField;
+public class Ventana extends JFrame{
+    private JTextField txtNumero1;
+    private JTextField txtNumero2;
+    private JButton btnSumar;
+    private JButton btnRestar;
+    private JButton btnMultiplicar;
+    private JButton btnDividir;
+    private JLabel lblResultado;
 
     public Ventana() {
-        // Configuración de la ventana principal
         setTitle("Calculadora");
-        setSize(300, 300);
+        setSize(300, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null); // Centrar la ventana
+        setLocationRelativeTo(null);
+        setLayout(null);
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(5, 2, 10, 10));
+        Operaciones op = new Operacionesimpl();
 
-        // Crear los componentes (textFields y botones)
-        textField1 = new JTextField();
-        textField2 = new JTextField();
-        resultField = new JTextField();
-        resultField.setEditable(false); // No se puede editar el campo de resultado
+        txtNumero1 = new JTextField();
+        txtNumero1.setBounds(50, 20, 200, 30);
+        add(txtNumero1);
 
-        JButton btnSuma = new JButton("+");
-        JButton btnResta = new JButton("-");
-        JButton btnMultiplicar = new JButton("*");
-        JButton btnDividir = new JButton("/");
+        txtNumero2 = new JTextField();
+        txtNumero2.setBounds(50, 60, 200, 30);
+        add(txtNumero2);
 
-        // Agregar los componentes al panel
-        panel.add(new JLabel("Número 1:"));
-        panel.add(textField1);
-        panel.add(new JLabel("Número 2:"));
-        panel.add(textField2);
-        panel.add(new JLabel("Resultado:"));
-        panel.add(resultField);
-        panel.add(btnSuma);
-        panel.add(btnResta);
-        panel.add(btnMultiplicar);
-        panel.add(btnDividir);
+        btnSumar = new JButton("Sumar");
+        btnSumar.setBounds(50, 100, 80, 30);
+        add(btnSumar);
 
-        // Añadir el panel a la ventana
-        add(panel);
+        btnRestar = new JButton("Restar");
+        btnRestar.setBounds(140, 100, 80, 30);
+        add(btnRestar);
 
-        // Crear instancia de la clase que implementa Operaciones
-        Operaciones operaciones = new Operacionesimpl();
+        btnMultiplicar = new JButton("Multiplicar");
+        btnMultiplicar.setBounds(50, 140, 100, 30);
+        add(btnMultiplicar);
 
-        // Acciones de los botones
-        btnSuma.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                realizarOperacion(operaciones, '+');
+        btnDividir = new JButton("Dividir");
+        btnDividir.setBounds(160, 140, 80, 30);
+        add(btnDividir);
+
+        lblResultado = new JLabel("Resultado: ");
+        lblResultado.setBounds(50, 180, 200, 30);
+        add(lblResultado);
+
+        // Action listeners for buttons
+        btnSumar.addActionListener(e -> {
+            double num1 = Double.parseDouble(txtNumero1.getText());
+            double num2 = Double.parseDouble(txtNumero2.getText());
+            double resultado = op.sumar(num1, num2);
+            lblResultado.setText("Resultado: " + resultado);
+        });
+
+        btnRestar.addActionListener(e -> {
+            double num1 = Double.parseDouble(txtNumero1.getText());
+            double num2 = Double.parseDouble(txtNumero2.getText());
+            double resultado = op.restar(num1, num2);
+            lblResultado.setText("Resultado: " + resultado);
+        });
+
+        btnMultiplicar.addActionListener(e -> {
+            double num1 = Double.parseDouble(txtNumero1.getText());
+            double num2 = Double.parseDouble(txtNumero2.getText());
+            double resultado = op.multiplicar(num1, num2);
+            lblResultado.setText("Resultado: " + resultado);
+        });
+
+        btnDividir.addActionListener(e -> {
+            double num1 = Double.parseDouble(txtNumero1.getText());
+            double num2 = Double.parseDouble(txtNumero2.getText());
+            if (num2 != 0) {
+                double resultado = op.dividir(num1, num2);
+                lblResultado.setText("Resultado: " + resultado);
+            } else {
+                lblResultado.setText("Error: División por cero");
             }
         });
-        btnResta.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                realizarOperacion(operaciones, '-');
-            }
-        });
-        btnMultiplicar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                realizarOperacion(operaciones, '*');
-            }
-        });
-        btnDividir.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                realizarOperacion(operaciones, '/');
-            }
-        });
-    }
 
-    // Metodo para realizar la operación
-    private void realizarOperacion(Operaciones operaciones, char operacion) {
-        try {
-            double num1 = Double.parseDouble(textField1.getText());
-            double num2 = Double.parseDouble(textField2.getText());
-            double resultado = 0;
-
-            switch (operacion) {
-                case '+':
-                    resultado = operaciones.sumar(num1, num2);
-                    break;
-                case '-':
-                    resultado = operaciones.restar(num1, num2);
-                    break;
-                case '*':
-                    resultado = operaciones.multiplicar(num1, num2);
-                    break;
-                case '/':
-                    resultado = operaciones.dividir(num1, num2);
-                    break;
-            }
-            resultField.setText(String.valueOf(resultado));
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor ingresa números válidos", "Error", JOptionPane.ERROR_MESSAGE);
-        } catch (ArithmeticException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Ventana ventana = new Ventana();
-            ventana.setVisible(true);
-        });
+        Ventana ventana = new Ventana();
+        ventana.setVisible(true);
     }
 }
