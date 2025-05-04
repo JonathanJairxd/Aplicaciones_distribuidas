@@ -1,6 +1,6 @@
-package clase.implementacion;
+package Talleres.A1_clase.implementacion;
 
-import clase.interfaz.Operaciones;
+import Talleres.A1_clase.interfaz.Operaciones;
 
 public class Operacionesimpl implements Operaciones {
     @Override

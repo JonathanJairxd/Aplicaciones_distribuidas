@@ -1,4 +1,4 @@
-package hilos.clase;
+package Talleres.A2_hilos.clase;
 
 public class ProcesoB extends Thread{
     private int n;

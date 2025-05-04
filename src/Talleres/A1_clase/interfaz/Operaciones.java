@@ -1,4 +1,4 @@
-package clase.interfaz;
+package Talleres.A1_clase.interfaz;
 
 public interface Operaciones {
     public double sumar(double x, double y);

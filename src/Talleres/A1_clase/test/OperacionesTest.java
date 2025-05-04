@@ -1,7 +1,7 @@
-package clase.test;
+package Talleres.A1_clase.test;
 
-import clase.implementacion.Operacionesimpl;
-import clase.interfaz.Operaciones;
+import Talleres.A1_clase.implementacion.Operacionesimpl;
+import Talleres.A1_clase.interfaz.Operaciones;
 
 import javax.swing.*;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package hilos.clase;
+package Talleres.A2_hilos.clase;
 
 import lombok.Getter;
 import lombok.Setter;

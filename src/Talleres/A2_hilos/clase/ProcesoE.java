@@ -1,6 +1,4 @@
-package hilos.clase;
-
-import javax.swing.*;
+package Talleres.A2_hilos.clase;
 
 public class ProcesoE implements Runnable {
     private String texto;

@@ -1,4 +1,4 @@
-package hilos.vista;
+package Talleres.A2_hilos.vista;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
