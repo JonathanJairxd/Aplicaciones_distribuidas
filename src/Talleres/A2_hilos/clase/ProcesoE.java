@@ -1,4 +1,4 @@
-package hilos.clase;
+package Talleres.A2_hilos.clase;
 
 import javax.swing.*;
 
@@ -10,9 +10,8 @@ public class ProcesoE implements Runnable {
     }
 
     public void mensaje(String texto){
-
-
-
+        JPanel panel = new JPanel();
+        JOptionPane.showMessageDialog(panel, texto);
     }
 
     @Override

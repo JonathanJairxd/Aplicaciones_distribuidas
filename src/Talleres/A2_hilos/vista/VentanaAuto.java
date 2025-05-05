@@ -1,4 +1,7 @@
-package hilos.vista;
+package Talleres.A2_hilos.vista;
+
+import Talleres.A2_hilos.clase.Auto;
+import Talleres.A2_hilos.clase.ProcesoF;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -15,6 +18,8 @@ public class VentanaAuto extends JFrame {
     private JTextField texto3;
 
     private JButton mostrar;
+
+    public static Auto autoIngresado;
 
     public VentanaAuto() {
         setTitle("Selección Auto");
@@ -59,12 +64,19 @@ public class VentanaAuto extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String marca = texto1.getText();
                 String modelo = texto2.getText();
-                String precio = texto3.getText();
+                double precio = Double.parseDouble(texto3.getText());
 
-                JOptionPane.showMessageDialog(null, "\nMarca: " + marca +
-                                "\nModelo: " + modelo +
-                                "\nPrecio: " + precio,
-                        "Datos del vehiculo", JOptionPane.INFORMATION_MESSAGE);
+                Auto carro = new Auto();
+                carro.setMarca(marca);
+                carro.setModelo(modelo);
+                carro.setPrecio(precio);
+
+                autoIngresado = carro;
+
+                Runnable z = new ProcesoF(VentanaAuto.autoIngresado);
+                Thread f = new Thread(z);
+                f.start();
+                dispose();
             }
         });
     }
