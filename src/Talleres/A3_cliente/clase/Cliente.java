@@ -5,29 +5,30 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class Cliente {
-    public void enviarNumeros(String IP, int puerto, int num1, int num2 ){
+    public String enviarNumeros(String IP, int puerto, int num1, int num2, String operacion ){
 
-        try {
-            DatagramSocket socket = new DatagramSocket(); // Crear Datagram
-            InetAddress direccionIp_servidor = InetAddress.getByName(IP);
+        String respuesta = "";
 
-                // Crear mensaje en formato "num1,num2"
-                String mensajeSalida = num1 + "," + num2;
-                byte[] bufferSalida = mensajeSalida.getBytes();
+        try{
+            DatagramSocket socket = new DatagramSocket();
+            InetAddress address = InetAddress.getByName(IP);
 
-                DatagramPacket paqueteSalida = new DatagramPacket(bufferSalida, bufferSalida.length, direccionIp_servidor, puerto);
-                socket.send(paqueteSalida);
+            // Convertir los números a cadena y enviarlos
+            String mensaje = num1 + "," + num2 + "," + operacion;
+            byte[] buffer = mensaje.getBytes();
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length, address, puerto);
+            socket.send(packet);
+            System.out.println("Mensaje enviado: " + mensaje);
+            // Esperar respuesta del servidor
+            byte[] bufferRespuesta = new byte[1024];
+            DatagramPacket respuestaPacket = new DatagramPacket(bufferRespuesta, bufferRespuesta.length);
+            socket.receive(respuestaPacket);
+            respuesta = new String(respuestaPacket.getData(), 0, respuestaPacket.getLength());
+            System.out.println("Respuesta del servidor: " + respuesta);
 
-                // Esperar respuesta del servidor (la suma)
-                byte[] bufferEntrada = new byte[1024];
-                DatagramPacket paqueteEntrada = new DatagramPacket(bufferEntrada, bufferEntrada.length);
-                socket.receive(paqueteEntrada);
-
-                String respuestaServidor = new String(paqueteEntrada.getData(), 0, paqueteEntrada.getLength());
-                System.out.println("Resultado recibido del servidor: " + respuestaServidor);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception e){
+            System.out.println("Error: " + e.getMessage());
         }
+        return respuesta;
     }
 }
