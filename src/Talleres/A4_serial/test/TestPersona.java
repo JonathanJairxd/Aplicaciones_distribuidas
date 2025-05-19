@@ -16,7 +16,7 @@ public class TestPersona {
         Servicio servicio = new Servicio();
         servicio.escribir(p, "C:\\Users\\APP DISTRIBUIDAS\\IdeaProjects\\ProyectoJ_01\\src\\Talleres\\A4_serial\\binario.dat");
 
-        Persona p2 = new Persona();
+        /*Persona p2 = new Persona();
         p2.setNombre("Persona 2");
         p2.setFechaNacimiento("Fecha 2");
         p2.setDireccion("Direccion 2");
@@ -29,7 +29,7 @@ public class TestPersona {
         List<Persona> lista = new ArrayList<>();
         lista.add(p);
         lista.add(p2);
-        lista.add(p3);
+        lista.add(p3);*/
 
         System.out.println(servicio.leer("C:\\Users\\APP DISTRIBUIDAS\\IdeaProjects\\ProyectoJ_01\\src\\Talleres\\A4_serial\\binario.dat"));
     }
