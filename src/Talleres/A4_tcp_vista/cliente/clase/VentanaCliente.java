@@ -10,12 +10,17 @@ public class VentanaCliente extends JFrame {
     private JComboBox<String> comboTipo;
     private JButton botonEnviar;
     private JTextArea areaRespuesta;
+    private JButton botonVerRegistros;
+
 
     public VentanaCliente() {
         setTitle("Registro de Entrada");
-        setSize(400, 300);
+        setSize(500, 350);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
+
+        // Centrar la ventana en la pantalla
+        setLocationRelativeTo(null);
 
         JLabel etiquetaNombre = new JLabel("Nombre:");
         etiquetaNombre.setBounds(30, 30, 100, 25);
@@ -29,7 +34,7 @@ public class VentanaCliente extends JFrame {
         etiquetaTipo.setBounds(30, 70, 120, 25);
         add(etiquetaTipo);
 
-        comboTipo = new JComboBox<>(new String[]{"Llegada", "Salida", "Hora de comida"});
+        comboTipo = new JComboBox<>(new String[]{"Ingreso al trabajo", "Salida al almuerzo", "Ingreso del Almuerzo" , "Salida del trabajo"});
         comboTipo.setBounds(150, 70, 200, 25);
         add(comboTipo);
 
@@ -37,10 +42,15 @@ public class VentanaCliente extends JFrame {
         botonEnviar.setBounds(150, 110, 100, 30);
         add(botonEnviar);
 
+        botonVerRegistros = new JButton("Ver Registros");
+        botonVerRegistros.setBounds(260, 110, 130, 30);
+        add(botonVerRegistros);
+
         areaRespuesta = new JTextArea();
-        areaRespuesta.setBounds(30, 160, 320, 80);
         areaRespuesta.setEditable(false);
-        add(areaRespuesta);
+        JScrollPane scrollArea = new JScrollPane(areaRespuesta);
+        scrollArea.setBounds(75, 165, 345, 120);
+        add(scrollArea);
 
         // Evento del botón
         botonEnviar.addActionListener(new ActionListener() {
@@ -61,6 +71,22 @@ public class VentanaCliente extends JFrame {
                 }
             }
         });
+
+        botonVerRegistros.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    String registros = Cliente.verRegistros();
+                    areaRespuesta.setText(registros);
+                } catch (Exception ex) {
+                    areaRespuesta.setText("Error al obtener los registros.");
+                    ex.printStackTrace();
+                }
+            }
+        });
+
+
+
 
         setVisible(true);
     }

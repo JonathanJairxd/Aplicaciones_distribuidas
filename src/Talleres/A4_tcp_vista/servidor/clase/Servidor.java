@@ -18,8 +18,8 @@ public class Servidor {
                 + formato.format(date);
     }
 
-    // Clase interna para representar el registro que se guardará
-    // Esta clase no es parte de tu código original, pero es necesaria para la serialización
+    // Clase interna para representar el registro que se guardara
+    // Esta clase no es parte de tu codigo original, pero es necesaria para la serialización
     static class Registro implements Serializable {
         private String nombre;
         private String fechaHora;
@@ -62,6 +62,21 @@ public class Servidor {
         }
     }
 
+    // Metodo para mostrar los registros guardados en el archivo
+    public static void verRegistros(String ruta) throws Exception {
+        List<Registro> listaRegistros = leerRegistros(ruta);
+
+        // Mostrar los registros de manera legible
+        if (listaRegistros.isEmpty()) {
+            System.out.println("No hay registros para mostrar.");
+        } else {
+            System.out.println("Registros guardados:");
+            for (Registro registro : listaRegistros) {
+                System.out.println(registro);
+            }
+        }
+    }
+
     // Metodo para procesar las solicitudes de los clientes
     public static void procesarSolicitud(int puerto) throws Exception {
         ServerSocket servidor = new ServerSocket(puerto);
@@ -77,15 +92,41 @@ public class Servidor {
             // Leer el nombre del cliente (empleado)
             DataInputStream dis = new DataInputStream(in);
             String nombre = dis.readUTF();
+
+            // Si el cliente solicita los registros
+            if (nombre.equalsIgnoreCase("ver_registros")) {
+                // Leer todos los registros y enviarlos como una cadena
+                try {
+                    List<Registro> registros = leerRegistros("src/ReporteEmpleado.data");
+                    StringBuilder registrosTexto = new StringBuilder();
+                    for (Registro registro : registros) {
+                        registrosTexto.append(registro.toString()).append("\n");
+                    }
+                    if (registrosTexto.isEmpty()) {
+                        registrosTexto.append("No hay registros para mostrar.");
+                    }
+
+                    DataOutputStream dos = new DataOutputStream(out);
+                    dos.writeUTF(registrosTexto.toString());
+                } catch (Exception e) {
+                    DataOutputStream dos = new DataOutputStream(out);
+                    dos.writeUTF("Error al leer registros: " + e.getMessage());
+                }
+
+                cliente.close();
+                continue;  // Esperar al siguiente cliente
+            }
+
+            // Si el cliente envía un nombre para registrar
             if (nombre.equals("x")) break;
 
             // Generar la fecha y hora actual para el registro
             String fechaHora = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
             String resultado = getFecha(nombre);
 
-            // Crear el objeto Registro y guardarlo en el archivo
+            // Crear el objeto registro y guardarlo en el archivo
             Registro registro = new Registro(nombre, fechaHora);
-            guardarRegistro(registro, "Reporte.data");
+            guardarRegistro(registro, "src/ReporteEmpleado.data");
 
             System.out.println("Mensaje recibido exitosamente y registrado: " + resultado);
 

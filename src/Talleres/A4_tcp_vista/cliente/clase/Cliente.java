@@ -27,4 +27,21 @@ public class Cliente {
 
         return respuesta;
     }
+
+    public static String verRegistros() throws Exception {
+        Socket cliente = new Socket(IP, PUERTO);
+        InputStream in = cliente.getInputStream();
+        OutputStream out = cliente.getOutputStream();
+
+        // Enviar comando para pedir los registros al servidor
+        DataOutputStream dos = new DataOutputStream(out);
+        dos.writeUTF("ver_registros");  // Mensaje especial para pedir los registros
+
+        DataInputStream dis = new DataInputStream(in);
+        String respuesta = dis.readUTF();  // El servidor debe devolver una cadena con todos los registros
+
+        cliente.close();
+        return respuesta;
+    }
+
 }
