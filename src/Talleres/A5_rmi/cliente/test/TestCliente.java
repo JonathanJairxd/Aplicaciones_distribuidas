@@ -1,13 +1,14 @@
 package Talleres.A5_rmi.cliente.test;
 
 import Talleres.A5_rmi.cliente.clase.Cliente;
+import Talleres.A5_rmi.cliente.vista.VentanaCliente;
 
 import java.util.Scanner;
 
 public class TestCliente {
 
     public static void main(String[] args) throws Exception {
-        String op = null;
+        /*String op = null;
         int id=-1;
         Scanner scanner = null;
 
@@ -19,6 +20,10 @@ public class TestCliente {
             System.out.println("Desea salir si(s) / no(n)");
             op=scanner.next();
         } while (op.equals("n"));
-        scanner.close();
+        scanner.close();*/
+
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            new VentanaCliente().setVisible(true);
+        });
     }
 }
