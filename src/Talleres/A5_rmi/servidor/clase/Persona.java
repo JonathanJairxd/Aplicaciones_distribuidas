@@ -1,8 +1,9 @@
 package Talleres.A5_rmi.servidor.clase;
 
 import lombok.Getter;
+import java.io.Serializable;
 
-public class Persona {
+public class Persona implements Serializable{
     @Getter private int clave;
     @Getter private String nombre;
     @Getter private String correo;

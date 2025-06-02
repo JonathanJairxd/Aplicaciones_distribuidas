@@ -12,6 +12,22 @@ public class ServidorImpl extends UnicastRemoteObject implements Servidor {
     }
 
     @Override
+    public String crear(Persona p) throws Exception {
+        return Consulta.insertarPersona(p);
+    }
+
+    @Override
+    public String actualizar(Persona p) throws Exception {
+        return Consulta.actualizarPersona(p);
+    }
+
+    @Override
+    public String eliminar(int id) throws Exception {
+        return Consulta.eliminarPersona(id);
+    }
+
+
+    @Override
     public String consultar(int id) throws Exception {
         ArrayList<Persona> lista = Consulta.getPersonas();
 
@@ -26,4 +42,6 @@ public class ServidorImpl extends UnicastRemoteObject implements Servidor {
 
         return "No existen datos del empleado con id: " + id;
     }
+
+
 }
